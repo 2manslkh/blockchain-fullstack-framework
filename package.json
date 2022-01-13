@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "workspaces": [
+    "blockchain",
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"cd ./blockchain && npx hardhat node\" \"cd ./frontend && npm run dev\" \"cd ./backend && npm run start\"",
+    "start-blockchain": "cd ./blockchain && hh node",
+    "start-frontend": "cd ./frontend && npm run dev",
+    "start-backend": "cd ./backend && npm start",
+    "new-wallet": "cd ./blockchain && npx hardhat newwallet"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1"
+  }
+}

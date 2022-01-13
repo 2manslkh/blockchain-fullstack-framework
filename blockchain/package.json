@@ -1,0 +1,32 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ethersproject/hardware-wallets": "^5.5.0",
+    "@nomiclabs/hardhat-etherscan": "^2.1.8",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/contracts": "^4.4.1",
+    "@openzeppelin/contracts-upgradeable": "^4.4.1",
+    "@openzeppelin/hardhat-upgrades": "^1.12.0",
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "axios": "^0.24.0",
+    "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
+    "ethereum-waffle": "^3.4.0",
+    "hardhat": "^2.8.0",
+    "hardhat-deploy": "^0.9.24",
+    "hardhat-gas-reporter": "^1.0.6",
+    "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.3.0-beta.13",
+    "ethers": "^5.5.2"
+  }
+}
