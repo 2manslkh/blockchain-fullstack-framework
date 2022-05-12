@@ -13,6 +13,6 @@
     "new-wallet": "cd ./blockchain && npx hardhat newwallet"
   },
   "devDependencies": {
-    "concurrently": "^6.2.1"
+    "concurrently": "^7.1.0"
   }
 }
