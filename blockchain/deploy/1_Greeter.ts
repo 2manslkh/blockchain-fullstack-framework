@@ -1,4 +1,9 @@
-const { ethers } = require("hardhat");
+import "dotenv/config";
+
+import { GasLogger } from "../utils/helper";
+import { ethers } from "hardhat";
+
+const gasLogger = new GasLogger();
 
 module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deploy } = deployments;

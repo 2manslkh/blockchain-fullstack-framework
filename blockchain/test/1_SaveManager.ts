@@ -1,7 +1,11 @@
-const { expect } = require("chai");
-const { Contract } = require("ethers");
-const { ethers } = require("hardhat");
-const { default: axios } = require("axios");
+import "dotenv/config";
+
+import { deployments, ethers, network } from "hardhat";
+
+import { BigNumber } from "ethers";
+import { CardsAgainstNFTS } from "./../typechain/CardsAgainstNFTS";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { expect } from "chai";
 
 describe("SaveManager", function () {
   let owner;

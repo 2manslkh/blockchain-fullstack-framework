@@ -1,14 +1,19 @@
-require("@nomiclabs/hardhat-waffle");
-require("@nomiclabs/hardhat-etherscan");
-require("hardhat-gas-reporter");
-require("hardhat-deploy");
+import "@nomiclabs/hardhat-waffle";
+import "@nomiclabs/hardhat-etherscan";
+import "@nomiclabs/hardhat-ethers";
+import "hardhat-gas-reporter";
+import "hardhat-deploy";
+import "@typechain/hardhat";
+import "solidity-coverage";
+import "dotenv/config";
 
-require("dotenv").config();
+import { task } from "hardhat/config";
 
+let ethers = require("ethers");
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
+  const accounts = await ethers.getSigners();
 
   for (const account of accounts) {
     console.log(account.address);
@@ -16,13 +21,27 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 });
 
 task("newwallet", "Generate New Wallet", async (taskArgs, hre) => {
-  const wallet = hre.ethers.Wallet.createRandom();
+  const wallet = ethers.Wallet.createRandom();
   console.log("PK: ", wallet._signingKey().privateKey);
   console.log("Address: ", wallet.address);
 });
 
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
+// Setup Default Values
+let PRIVATE_KEY;
+if (process.env.PRIVATE_KEY) {
+  PRIVATE_KEY = process.env.PRIVATE_KEY;
+} else {
+  console.log("⚠️ Please set PRIVATE_KEY in the .env file");
+  PRIVATE_KEY = ethers.Wallet.createRandom()._signingKey().privateKey;
+}
+
+if (!process.env.INFURA_API_KEY) {
+  console.log("⚠️ Please set INFURA_API_KEY in the .env file");
+}
+
+if (!process.env.ETHERSCAN_API_KEY) {
+  console.log("⚠️ Please set ETHERSCAN_API_KEY in the .env file");
+}
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -33,11 +52,12 @@ module.exports = {
     localhost: {
       url: "http://127.0.0.1:8545",
       saveDeployments: true,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [PRIVATE_KEY],
     },
     hardhat: {
       // forking: {
       //   url: process.env.ALCHEMY_PROVIDER_MAINNET,
+      //   block: 0,
       // },
       mining: {
         auto: true,
@@ -46,36 +66,28 @@ module.exports = {
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       chainId: 1,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [PRIVATE_KEY],
     },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       chainId: 4,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [PRIVATE_KEY],
     },
-    matic: {
-      url: "https://polygon-rpc.com/",
-      chainId: 137,
-      accounts: [process.env.PRIVATE_KEY],
-    },
+    // matic: {
+    //   url: "https://polygon-rpc.com/",
+    //   chainId: 137,
+    //   accounts: [PRIVATE_KEY],
+    // },
     mumbai: {
       url: "https://rpc-mumbai.matic.today",
       chainId: 80001,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [PRIVATE_KEY],
     },
   },
   solidity: {
     compilers: [
       {
-        version: "0.8.11",
-        settings: {
-          optimizer: {
-            enabled: true,
-          },
-        },
-      },
-      {
-        version: "0.7.6",
+        version: "0.8.9",
         settings: {
           optimizer: {
             enabled: true,
@@ -102,5 +114,9 @@ module.exports = {
   },
   mocha: {
     timeout: 2000000000,
+  },
+  typechain: {
+    outDir: "typechain",
+    target: "ethers-v5",
   },
 };
